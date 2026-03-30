@@ -9,7 +9,7 @@ class Manager:
         self.tenants = {}
         self.transfers = []
         self.bills = []
-       
+
         self.load_data()
 
     def load_data(self):
@@ -23,3 +23,18 @@ class Manager:
             if tenant.apartment not in self.apartments:
                 return False
         return True
+
+    def get_apartment_costs(self, apartment_key, year, month):
+
+        if apartment_key not in self.apartments:
+            raise ValueError("not found")
+        
+        apartment = self.apartments[apartment_key]
+
+
+        total = sum(
+            bill.amount for bill in apartment.bills 
+            if bill.year == year and bill.month == month 
+        )
+        
+        return float(total)
